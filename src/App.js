@@ -1,23 +1,33 @@
 import Header from './components/Header/Header';
-import IntroBanner from './components/IntroBanner/IntroBanner';
-import Specials from './components/Specials/Specials';
 import Footer from './components/Footer/Footer';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Testimonials from './components/Testimonials/Testimonials';
-import About from './components/About/About';
+import Home from './pages/Home';
+import Bookings from './pages/Bookings';
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home/>,
+  },
+  {
+    path: "/reservations",
+    element: <Bookings/>,
+  },
+]);
 
 function App() {
+
   return (
     <>
       <Header/>
       <main>
-      <IntroBanner/>
-      <Specials/>
-      <Testimonials/>
-      <About/>
+        <RouterProvider router={router}/>
       </main>
       <Footer/>
     </>

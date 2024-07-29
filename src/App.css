@@ -14,3 +14,7 @@ footer {
   background-color: #24433F;
   color: #F9E065;
 }
+
+.error {
+  border: 2px solid #FF6565;
+}

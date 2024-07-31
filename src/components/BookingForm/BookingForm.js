@@ -32,9 +32,11 @@ function formatDate(date) {
   return new Date(date).toLocaleDateString();
 }
 
-function BookingForm() {
+function BookingForm({ availableTimes, dispatch }) {
   const [validated, setValidated] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const handleBookTime = (value) => {
+    dispatch({ type: "UPDATE_TIMES", time: value });
+  };
 
   return (
     <Formik
@@ -45,12 +47,13 @@ function BookingForm() {
         console.log("setSubmitting");
         setSubmitting(true);
         setValidated(true);
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          resetForm();
-          setValidated(false);
-          setSubmitting(false);
-        }, 2000);
+        // setTimeout(() => {
+        // alert(JSON.stringify(values, null, 2));
+        handleBookTime(values.bookTime);
+        resetForm();
+        setValidated(false);
+        setSubmitting(false);
+        // }, 1000);
       }}
     >
       {({
@@ -87,17 +90,19 @@ function BookingForm() {
           </Form.Group>
           <Form.Group as={Col} controlId="book-time" xs={3}>
             <Form.Label>Time</Form.Label>
-            <Form.Select name="bookTime"
+            <Form.Select
+              name="bookTime"
               placeholder="Select Time"
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.bookTime}
-              className={touched.bookTime && errors.bookTime ? "error" : null}>
-              <option>Open this select menu</option>
-              <option value="12">12:00 pm</option>
-              <option value="1">1:00 pm</option>
-              <option value="2">2:00 pm</option>
-              <option value="3">3:00 pm</option>
+              className={touched.bookTime && errors.bookTime ? "error" : null}
+            >
+              {availableTimes.map((time) => (
+                <option key={time.value} value={time.value}>
+                  {time.time}
+                </option>
+              ))}
             </Form.Select>
             {touched.bookTime && errors.bookTime ? (
               <Form.Control.Feedback className="d-block" type="invalid">
